@@ -104,10 +104,6 @@ const SelectCharacter = ({ setCharacterNFT }) => {
             <LoadingIndicator />
             <p>Minting In Progress...</p>
           </div>
-          <img
-            src='https://media2.giphy.com/media/61tYloUgq1eOk/giphy.gif?cid=ecf05e47dg95zbpabxhmhaksvoy8h526f96k4em0ndvx078s&rid=giphy.gif&ct=g'
-            alt='Minting loading indicator'
-          />
         </div>
       )}
     </div>
