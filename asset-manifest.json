@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/CryptoFighters-NFT-Multiplayer-Game/static/css/main.f88a6558.css",
+    "main.js": "/CryptoFighters-NFT-Multiplayer-Game/static/js/main.25bb2f70.js",
+    "static/media/cz.jpg": "/CryptoFighters-NFT-Multiplayer-Game/static/media/cz.ce49d1ac0e8a4abf96a7.jpg",
+    "static/media/cryptofighters.jpg": "/CryptoFighters-NFT-Multiplayer-Game/static/media/cryptofighters.b68418e98941d5ec443d.jpg",
+    "static/media/saylor.jpeg": "/CryptoFighters-NFT-Multiplayer-Game/static/media/saylor.e625b571c585e1ebb68c.jpeg",
+    "static/media/schiff.jpeg": "/CryptoFighters-NFT-Multiplayer-Game/static/media/schiff.4b78f531cc6dba078bca.jpeg",
+    "static/media/elon.jpeg": "/CryptoFighters-NFT-Multiplayer-Game/static/media/elon.8070148b595affe4fa18.jpeg",
+    "index.html": "/CryptoFighters-NFT-Multiplayer-Game/index.html",
+    "main.f88a6558.css.map": "/CryptoFighters-NFT-Multiplayer-Game/static/css/main.f88a6558.css.map",
+    "main.25bb2f70.js.map": "/CryptoFighters-NFT-Multiplayer-Game/static/js/main.25bb2f70.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f88a6558.css",
+    "static/js/main.25bb2f70.js"
+  ]
+}
