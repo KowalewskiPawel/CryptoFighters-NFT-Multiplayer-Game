@@ -1,5 +1,3 @@
-const CONTRACT_ADDRESS = "0x500557e7dd744Bc88003532C0D94d28d1ed52Ee2";
-
 const transformCharacterData = (characterData) => {
   return {
     name: characterData.name,
@@ -10,4 +8,4 @@ const transformCharacterData = (characterData) => {
   };
 };
 
-export { CONTRACT_ADDRESS, transformCharacterData };
+export default transformCharacterData;
