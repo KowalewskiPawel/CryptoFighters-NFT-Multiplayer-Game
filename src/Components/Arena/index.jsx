@@ -5,13 +5,8 @@ import myEpicGame from "../../utils/myEpicGame.json";
 import LoadingIndicator from "../LoadingIndicator";
 import "./Arena.css";
 
-/*
- * We pass in our characterNFT metadata so we can a cool card in our UI
- */
 const Arena = ({ characterNFT, setCharacterNFT }) => {
-  // State
   const [gameContract, setGameContract] = useState(null);
-
   const [boss, setBoss] = useState(null);
   const [attackState, setAttackState] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -20,15 +15,9 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
     try {
       if (gameContract) {
         setAttackState("attacking");
-        console.log("Attacking boss...");
         const txn = await gameContract.attackBoss();
         await txn.wait();
-        console.log(txn);
         setAttackState("hit");
-
-        /*
-         * Set your toast state to true and then false 5 seconds later
-         */
         setShowToast(true);
         setTimeout(() => {
           setShowToast(false);
@@ -40,7 +29,6 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
     }
   };
 
-  // UseEffects
   useEffect(() => {
     const { ethereum } = window;
 
@@ -59,7 +47,6 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
     }
   }, []);
 
-  // UseEffects
   useEffect(() => {
     const fetchBoss = async () => {
       const bossTxn = await gameContract.getBigBoss();
@@ -67,18 +54,10 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
       setBoss(transformCharacterData(bossTxn));
     };
 
-    /*
-     * Setup logic when this event is fired off
-     */
     const onAttackComplete = (newBossHp, newPlayerHp) => {
       const bossHp = newBossHp.toNumber();
       const playerHp = newPlayerHp.toNumber();
 
-      console.log(`AttackComplete: Boss Hp: ${bossHp} Player Hp: ${playerHp}`);
-
-      /*
-       * Update both player and boss Hp
-       */
       setBoss((prevState) => {
         return { ...prevState, hp: bossHp };
       });
@@ -93,9 +72,6 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
       gameContract.on("AttackComplete", onAttackComplete);
     }
 
-    /*
-     * Make sure to clean up this event when this component is removed
-     */
     return () => {
       if (gameContract) {
         gameContract.off("AttackComplete", onAttackComplete);
@@ -105,14 +81,11 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
 
   return (
     <div className='arena-container'>
-      {/* Add your toast HTML right here */}
       {boss && characterNFT && (
         <div id='toast' className={showToast ? "show" : ""}>
           <div id='desc'>{`💥 ${boss.name} was hit for ${characterNFT.attackDamage}!`}</div>
         </div>
       )}
-
-      {/* Boss */}
       {boss && (
         <div className='boss-container'>
           <div className={`boss-content  ${attackState}`}>
@@ -142,7 +115,6 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
         </div>
       )}
 
-      {/* Character NFT */}
       {characterNFT && (
         <div className='players-container'>
           <div className='player-container'>

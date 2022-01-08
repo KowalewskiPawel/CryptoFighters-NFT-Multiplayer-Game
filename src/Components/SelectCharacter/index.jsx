@@ -13,24 +13,13 @@ const SelectCharacter = ({ setCharacterNFT }) => {
   const mintCharacterNFTAction = (characterId) => async () => {
     try {
       if (gameContract) {
-        /*
-         * Show our loading indicator
-         */
         setMintingCharacter(true);
-        console.log("Minting character in progress...");
         const mintTxn = await gameContract.mintCharacterNFT(characterId);
         await mintTxn.wait();
-        console.log(mintTxn);
-        /*
-         * Hide our loading indicator when minting is finished
-         */
         setMintingCharacter(false);
       }
     } catch (error) {
       console.warn("MintCharacterAction Error:", error);
-      /*
-       * If there is a problem, hide the loading indicator as well
-       */
       setMintingCharacter(false);
     }
   };
@@ -65,10 +54,6 @@ const SelectCharacter = ({ setCharacterNFT }) => {
         myEpicGame.abi,
         signer
       );
-
-      /*
-       * This is the big difference. Set our gameContract in state.
-       */
       setGameContract(gameContract);
     } else {
       console.log("Ethereum object not found");
@@ -78,53 +63,29 @@ const SelectCharacter = ({ setCharacterNFT }) => {
   useEffect(() => {
     const getCharacters = async () => {
       try {
-        console.log("Getting contract characters to mint");
-
         const charactersTxn = await gameContract.getAllDefaultCharacters();
-        console.log("charactersTxn:", charactersTxn);
-
         const characters = charactersTxn.map((characterData) =>
           transformCharacterData(characterData)
         );
-
         setCharacters(characters);
       } catch (error) {
         console.error("Something went wrong fetching characters:", error);
       }
     };
 
-    /*
-     * Add a callback method that will fire when this event is received
-     */
     const onCharacterMint = async (sender, tokenId, characterIndex) => {
-      console.log(
-        `CharacterNFTMinted - sender: ${sender} tokenId: ${tokenId.toNumber()} characterIndex: ${characterIndex.toNumber()}`
-      );
-
-      /*
-       * Once our character NFT is minted we can fetch the metadata from our contract
-       * and set it in state to move onto the Arena
-       */
       if (gameContract) {
         const characterNFT = await gameContract.checkIfUserHasNFT();
-        console.log("CharacterNFT: ", characterNFT);
         setCharacterNFT(transformCharacterData(characterNFT));
       }
     };
 
     if (gameContract) {
       getCharacters();
-
-      /*
-       * Setup NFT Minted Listener
-       */
       gameContract.on("CharacterNFTMinted", onCharacterMint);
     }
 
     return () => {
-      /*
-       * When your component unmounts, let;s make sure to clean up this listener
-       */
       if (gameContract) {
         gameContract.off("CharacterNFTMinted", onCharacterMint);
       }
@@ -137,7 +98,6 @@ const SelectCharacter = ({ setCharacterNFT }) => {
       {characters.length > 0 && (
         <div className='character-grid'>{renderCharacters()}</div>
       )}
-      {/* Only show our loading state if mintingCharacter is true */}
       {mintingCharacter && (
         <div className='loading'>
           <div className='indicator'>
