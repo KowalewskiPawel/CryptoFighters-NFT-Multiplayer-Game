@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-import { CONTRACT_ADDRESS, transformCharacterData } from "./constants";
-import myEpicGame from "./utils/myEpicGame.json";
+import { CONTRACT_ADDRESS } from "./consts";
+import cryptoFighters from "./abi/cryptoFighters.json";
+import transformCharacterData from "./utils/transformCharacterData";
 
 import SelectCharacter from "./Components/SelectCharacter";
 import Arena from "./Components/Arena";
 import LoadingIndicator from "./Components/LoadingIndicator";
+
+import logo from "./assets/cryptofighters.jpg";
 import "./App.css";
 
 const App = () => {
@@ -64,10 +67,7 @@ const App = () => {
     if (!currentAccount) {
       return (
         <div className='connect-wallet-container'>
-          <img
-            src={`https://cloudflare-ipfs.com/ipfs/Qmai7PDjEoekcuH557dymHuTJRvj6ER1zr2Q4KKGvUKrsn`}
-            alt='crypto fighters'
-          />
+          <img src={logo} alt='crypto fighters' />
           <button
             className='cta-button connect-wallet-button'
             onClick={connectWalletAction}>
@@ -108,7 +108,7 @@ const App = () => {
       const signer = provider.getSigner();
       const gameContract = new ethers.Contract(
         CONTRACT_ADDRESS,
-        myEpicGame.abi,
+        cryptoFighters.abi,
         signer
       );
 

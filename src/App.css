@@ -46,6 +46,10 @@
   color: white;
 }
 
+.disabled {
+  filter: grayscale(100%) !important;
+}
+
 .connect-wallet-container {
   display: flex;
   flex-direction: column;

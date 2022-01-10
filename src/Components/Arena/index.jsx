@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, transformCharacterData } from "../../constants";
-import myEpicGame from "../../utils/myEpicGame.json";
+import { CONTRACT_ADDRESS } from "../../consts";
+import transformCharacterData from "../../utils/transformCharacterData";
+import getCharacterImage from "../../utils/getCharacterImage";
+import cryptoFighters from "../../abi/cryptoFighters.json";
 import LoadingIndicator from "../LoadingIndicator";
+import schiff from "../../assets/schiff.jpeg";
 import "./Arena.css";
 
 const Arena = ({ characterNFT, setCharacterNFT }) => {
   const [gameContract, setGameContract] = useState(null);
+  const [players, setPlayers] = useState([]);
   const [boss, setBoss] = useState(null);
   const [attackState, setAttackState] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -14,6 +18,11 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
   const runAttackAction = async () => {
     try {
       if (gameContract) {
+        if (characterNFT.hp === 0) {
+          alert("Your character is dead :(");
+          return;
+        }
+
         setAttackState("attacking");
         const txn = await gameContract.attackBoss();
         await txn.wait();
@@ -29,6 +38,25 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
     }
   };
 
+  const renderActivePlayersList = async () => {
+    try {
+      if (gameContract) {
+        const activePlayers = [];
+        const playersCount = await gameContract.getAllCharacters();
+
+        for (let i = 1; i <= playersCount; i++) {
+          activePlayers.push(
+            transformCharacterData(await gameContract.nftHolderAttributes(i))
+          );
+        }
+
+        setPlayers(activePlayers);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const { ethereum } = window;
 
@@ -37,7 +65,7 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
       const signer = provider.getSigner();
       const gameContract = new ethers.Contract(
         CONTRACT_ADDRESS,
-        myEpicGame.abi,
+        cryptoFighters.abi,
         signer
       );
 
@@ -91,10 +119,7 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
           <div className={`boss-content  ${attackState}`}>
             <h2>🔥 {boss.name} 🔥</h2>
             <div className='image-content'>
-              <img
-                src={`https://cloudflare-ipfs.com/ipfs/${boss.imageURI}`}
-                alt={`Boss ${boss.name}`}
-              />
+              <img src={schiff} alt={`Boss ${boss.name}`} />
               <div className='health-bar'>
                 <progress value={boss.hp} max={boss.maxHp} />
                 <p>{`${boss.hp} / ${boss.maxHp} HP`}</p>
@@ -102,7 +127,9 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
             </div>
           </div>
           <div className='attack-container'>
-            <button className='cta-button' onClick={runAttackAction}>
+            <button
+              className={`cta-button ${characterNFT.hp === 0 && "disabled"}`}
+              onClick={runAttackAction}>
               {`💥 Attack ${boss.name}`}
             </button>
           </div>
@@ -123,7 +150,8 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
               <div className='image-content'>
                 <h2>{characterNFT.name}</h2>
                 <img
-                  src={`https://cloudflare-ipfs.com/ipfs/${characterNFT.imageURI}`}
+                  className={characterNFT.hp === 0 ? "dead" : ""}
+                  src={getCharacterImage(characterNFT.name)}
                   alt={`Character ${characterNFT.name}`}
                 />
                 <div className='health-bar'>
@@ -136,10 +164,27 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
               </div>
             </div>
           </div>
-          {/* <div className="active-players">
+          {/*
+          <div className='active-players'>
             <h2>Active Players</h2>
-            <div className="players-list">{renderActivePlayersList()}</div>
-          </div> */}
+            <div className='players-list'>
+              {players &&
+                players.map((character, index) => {
+                  return (
+                    <div className='character-item' key={character.name}>
+                      <div className='name-container'>
+                        <p>{character.name}</p>
+                      </div>
+                      <img
+                        src={getCharacterImage(character.name)}
+                        alt={character.name}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+              */}
         </div>
       )}
     </div>

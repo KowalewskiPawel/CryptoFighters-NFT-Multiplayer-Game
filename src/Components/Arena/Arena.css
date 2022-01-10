@@ -106,6 +106,10 @@
   object-fit: cover;
 }
 
+.player .image-content .dead {
+  filter: grayscale(100%) !important;
+}
+
 .players-container .active-players {
   display: flex;
   flex-direction: column;

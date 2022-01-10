@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./SelectCharacter.css";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, transformCharacterData } from "../../constants";
-import myEpicGame from "../../utils/myEpicGame.json";
+import { CONTRACT_ADDRESS } from "../../consts";
+import transformCharacterData from "../../utils/transformCharacterData";
+import getCharacterImage from "../../utils/getCharacterImage";
+import cryptoFighters from "../../abi/cryptoFighters.json";
 import LoadingIndicator from "../LoadingIndicator";
 
 const SelectCharacter = ({ setCharacterNFT }) => {
@@ -30,10 +32,7 @@ const SelectCharacter = ({ setCharacterNFT }) => {
         <div className='name-container'>
           <p>{character.name}</p>
         </div>
-        <img
-          src={`https://cloudflare-ipfs.com/ipfs/${character.imageURI}`}
-          alt={character.name}
-        />
+        <img src={getCharacterImage(character.name)} alt={character.name} />
         <button
           type='button'
           className='character-mint-button'
@@ -51,7 +50,7 @@ const SelectCharacter = ({ setCharacterNFT }) => {
       const signer = provider.getSigner();
       const gameContract = new ethers.Contract(
         CONTRACT_ADDRESS,
-        myEpicGame.abi,
+        cryptoFighters.abi,
         signer
       );
       setGameContract(gameContract);
@@ -64,9 +63,7 @@ const SelectCharacter = ({ setCharacterNFT }) => {
     const getCharacters = async () => {
       try {
         const charactersTxn = await gameContract.getAllDefaultCharacters();
-        const characters = charactersTxn.map((characterData) =>
-          transformCharacterData(characterData)
-        );
+        const characters = charactersTxn.map(transformCharacterData);
         setCharacters(characters);
       } catch (error) {
         console.error("Something went wrong fetching characters:", error);
