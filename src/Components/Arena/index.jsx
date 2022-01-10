@@ -10,7 +10,7 @@ import "./Arena.css";
 
 const Arena = ({ characterNFT, setCharacterNFT }) => {
   const [gameContract, setGameContract] = useState(null);
-  const [players, setPlayers] = useState([]);
+  // const [players, setPlayers] = useState([]);
   const [boss, setBoss] = useState(null);
   const [attackState, setAttackState] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -38,6 +38,8 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
     }
   };
 
+  /*
+
   const renderActivePlayersList = async () => {
     try {
       if (gameContract) {
@@ -56,6 +58,8 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
       console.error(error);
     }
   };
+
+  */
 
   useEffect(() => {
     const { ethereum } = window;
