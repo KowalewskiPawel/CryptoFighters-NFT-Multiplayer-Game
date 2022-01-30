@@ -15,3 +15,7 @@ Frontend part for the NFT WEB3 game where each user has a unique character.
 1. Install all the dependencies - `npm install`
 
 T.B.A.
+
+### Live Preview
+
+[https://kowalewskipawel.github.io/CryptoFighters-NFT-Multiplayer-Game/](https://kowalewskipawel.github.io/CryptoFighters-NFT-Multiplayer-Game/)
