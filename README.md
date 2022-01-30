@@ -13,8 +13,9 @@ Frontend part for the NFT WEB3 game where each user has a unique character.
 ### Installation
 
 1. Install all the dependencies - `npm install`
-
-T.B.A.
+2. Create `.env` file.
+3. Inside of the `.env` file add the following key `REACT_APP_CONTRACT_ADDRESS=<address_of_your_contract>`
+4. Change the content of the json file inside of the `src/abi/cryptoFighters.json`
 
 ### Live Preview
 
