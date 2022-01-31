@@ -19,4 +19,4 @@ Frontend part for the NFT WEB3 game where each user has a unique character.
 
 ### Live Preview
 
-[https://kowalewskipawel.github.io/CryptoFighters-NFT-Multiplayer-Game/](https://kowalewskipawel.github.io/CryptoFighters-NFT-Multiplayer-Game/)
+[CryptoFighters-NFT-Multiplayer-Game](https://kowalewskipawel.github.io/CryptoFighters-NFT-Multiplayer-Game/)
